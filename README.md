@@ -20,6 +20,7 @@ npm i
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
+!!!! if site does not show run npm install framer motions
 
 **Edit a file directly in GitHub**
 

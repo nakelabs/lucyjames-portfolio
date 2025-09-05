@@ -103,6 +103,32 @@ export function HeroSection() {
           }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         />
+        <motion.div 
+          className="absolute top-44 left-5 w-2.5 h-2.5 bg-emerald-400/45 rounded-full"
+          animate={{ 
+            y: [0, -18, 0], 
+            x: [0, 12, 0],
+            opacity: [0.45, 0.75, 0.45]
+          }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+        />
+        <motion.div 
+          className="absolute top-12 left-8 w-1.5 h-1.5 bg-violet-400/50 rounded-full"
+          animate={{ 
+            y: [0, 12, 0], 
+            scale: [1, 1.3, 1],
+            rotate: [0, 180, 360]
+          }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 3.2 }}
+        />
+        <motion.div 
+          className="absolute top-80 left-6 w-3.5 h-3.5 bg-amber-400/40 rounded-full"
+          animate={{ 
+            y: [0, -30, 0], 
+            x: [0, 15, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1.7 }}
+        />
         
         {/* Center bubbles */}
         <motion.div 
@@ -122,6 +148,32 @@ export function HeroSection() {
             scale: [1, 0.8, 1]
           }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        />
+        <motion.div 
+          className="absolute top-4 left-1/2 w-2 h-2 bg-red-400/45 rounded-full"
+          animate={{ 
+            y: [0, 22, 0], 
+            x: [0, -25, 0],
+            opacity: [0.45, 0.8, 0.45]
+          }}
+          transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", delay: 2.8 }}
+        />
+        <motion.div 
+          className="absolute top-56 left-1/2 w-4 h-4 bg-sky-400/35 rounded-full"
+          animate={{ 
+            y: [0, -35, 0], 
+            scale: [1, 1.6, 1],
+            rotate: [0, -120, 0]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+        />
+        <motion.div 
+          className="absolute bottom-20 left-1/2 w-2.5 h-2.5 bg-lime-400/50 rounded-full"
+          animate={{ 
+            y: [0, -15, 0], 
+            x: [0, 18, 0]
+          }}
+          transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut", delay: 4.1 }}
         />
         
         {/* Right side bubbles */}
@@ -151,6 +203,79 @@ export function HeroSection() {
           }}
           transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
         />
+        <motion.div 
+          className="absolute top-8 right-12 w-1.5 h-1.5 bg-fuchsia-400/55 rounded-full"
+          animate={{ 
+            y: [0, 14, 0], 
+            x: [0, -10, 0],
+            opacity: [0.55, 0.85, 0.55]
+          }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.9 }}
+        />
+        <motion.div 
+          className="absolute top-36 right-4 w-3.5 h-3.5 bg-rose-400/40 rounded-full"
+          animate={{ 
+            y: [0, -28, 0], 
+            scale: [1, 1.4, 1],
+            rotate: [0, 270, 360]
+          }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+        />
+        <motion.div 
+          className="absolute top-72 right-20 w-2 h-2 bg-cyan-400/60 rounded-full"
+          animate={{ 
+            y: [0, 16, 0], 
+            x: [0, -14, 0]
+          }}
+          transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut", delay: 3.5 }}
+        />
+        <motion.div 
+          className="absolute bottom-16 right-8 w-4 h-4 bg-emerald-400/35 rounded-full"
+          animate={{ 
+            y: [0, -20, 0], 
+            x: [0, 16, 0],
+            scale: [1, 1.2, 1]
+          }}
+          transition={{ duration: 9.5, repeat: Infinity, ease: "easeInOut", delay: 2.1 }}
+        />
+        
+        {/* Top edge bubbles */}
+        <motion.div 
+          className="absolute top-2 left-1/4 w-2.5 h-2.5 bg-blue-500/45 rounded-full"
+          animate={{ 
+            y: [0, 20, 0], 
+            x: [0, -8, 0],
+            opacity: [0.45, 0.7, 0.45]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+        />
+        <motion.div 
+          className="absolute top-6 left-3/4 w-1.5 h-1.5 bg-purple-500/50 rounded-full"
+          animate={{ 
+            y: [0, 18, 0], 
+            scale: [1, 1.5, 1]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2.7 }}
+        />
+        
+        {/* Bottom edge bubbles */}
+        <motion.div 
+          className="absolute bottom-8 left-1/4 w-3 h-3 bg-yellow-500/40 rounded-full"
+          animate={{ 
+            y: [0, -25, 0], 
+            x: [0, 12, 0],
+            rotate: [0, 180, 360]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 0.9 }}
+        />
+        <motion.div 
+          className="absolute bottom-12 left-3/4 w-2 h-2 bg-pink-500/55 rounded-full"
+          animate={{ 
+            y: [0, -15, 0], 
+            x: [0, -10, 0]
+          }}
+          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 3.8 }}
+        />
         
         {/* Additional scattered bubbles */}
         <motion.div 
@@ -169,6 +294,40 @@ export function HeroSection() {
             scale: [1, 1.4, 1]
           }}
           transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        />
+        <motion.div 
+          className="absolute top-24 left-2/3 w-2.5 h-2.5 bg-indigo-500/45 rounded-full"
+          animate={{ 
+            y: [0, -20, 0], 
+            x: [0, 15, 0],
+            rotate: [0, -180, -360]
+          }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1.4 }}
+        />
+        <motion.div 
+          className="absolute top-64 left-1/3 w-1.5 h-1.5 bg-green-500/60 rounded-full"
+          animate={{ 
+            y: [0, 12, 0], 
+            scale: [1, 1.3, 1]
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2.9 }}
+        />
+        <motion.div 
+          className="absolute bottom-24 left-1/5 w-3 h-3 bg-orange-500/50 rounded-full"
+          animate={{ 
+            y: [0, -18, 0], 
+            x: [0, 8, 0],
+            opacity: [0.5, 0.8, 0.5]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+        />
+        <motion.div 
+          className="absolute bottom-32 right-1/3 w-2 h-2 bg-violet-500/45 rounded-full"
+          animate={{ 
+            y: [0, -22, 0], 
+            x: [0, -12, 0]
+          }}
+          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 3.3 }}
         />
       </div>
 
@@ -189,7 +348,7 @@ export function HeroSection() {
           </div>
           
           <motion.h1 
-            className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight relative z-10 max-w-lg"
+            className="text-4xl md:text-6xl lg:text-7xl font-playfair font-bold text-gray-900 mb-6 leading-tight relative z-10 max-w-lg tracking-wide"
             variants={containerVariants}
             initial="hidden"
             animate="visible"

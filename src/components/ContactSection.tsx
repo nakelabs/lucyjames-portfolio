@@ -6,8 +6,8 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    value: "lucy.abaji@example.com",
-    href: "mailto:lucy.abaji@example.com"
+    value: "iyanglucy2014@gmail.com",
+    href: "mailto:iyanglucy2014@gmail.com"
   },
   {
     icon: Phone,
@@ -25,7 +25,7 @@ const contactInfo = [
     icon: Linkedin,
     title: "LinkedIn",
     value: "Connect with Lucy",
-    href: "https://linkedin.com/in/lucy-james-abaji"
+    href: "https://www.linkedin.com/in/lucy-abagi-a94a98128/"
   }
 ];
 

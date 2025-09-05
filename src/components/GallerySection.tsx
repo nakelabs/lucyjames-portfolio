@@ -5,39 +5,72 @@ import { Eye, Filter, Grid, Image as ImageIcon } from "lucide-react";
 
 const galleryImages = [
   {
-    src: "/images/hero-image.jpg",
-    alt: "Lucy James Abaji - Professional Portrait",
+    src: "/frame14.png",
+    alt: "Lucy James Abaji receiving the icon of transparency and good governance award from the National Association of Nigeria",
     category: "Professional",
     featured: true
   },
   {
-    src: "/images/gallery1.jpg",
-    alt: "Leadership meeting at PPDC",
+    src: "/frame16.png",
+    alt: "Lucy James Abaji has been named one of the top 100 reputable women of african descent",
     category: "Professional",
     featured: false
   },
   {
-    src: "/images/gallery2.jpg",
-    alt: "Conference presentation and public speaking",
+    src: "/frame17.png",
+    alt: " Lucy James Abaji delivering a keynote speech at a The JIT Summit 2025",
     category: "Speaking",
     featured: true
   },
   {
-    src: "/images/ppdc-building.jpg",
-    alt: "PPDC corporate headquarters",
+    src: "/frame19.png",
+    alt: "Lucy James Abaji welcoming the new interns at PPDC",
     category: "Workplace",
     featured: false
   },
   {
-    src: "/images/lifestyle1.jpg",
-    alt: "Personal development and continuous learning",
+    src: "/frame20.png",
+    alt: "lucy james during an exercise session",
     category: "Lifestyle",
     featured: false
   },
   {
-    src: "/images/lifestyle2.jpg",
-    alt: "Professional networking and community engagement",
+    src: "/frame21.png",
+    alt: "Lucy James Abaji and justice team visited Kuje correctional center",
     category: "Community",
+    featured: true
+  },
+  // New Speaking Images
+  {
+    src: "/frame22.png",
+    alt: " Opening Remarks by Lucy James Abaji highlighting PPDC's journey in championing transparency and citizen engagement in Nigeria",
+    category: "Speaking",
+    featured: true
+  },
+  {
+    src: "/frame23.png",
+    alt: "Lucy James Abaji in a strategy meeting with various leadership teams",
+    category: "Speaking",
+    featured: false
+  },
+  // New Professional Images
+  {
+    src: "/frame24.png",
+    alt: "Lucy James Abaji and the PPDC team with the Attorney General and Commissioner for justice of Nasarawa State",
+    category: "Professional",
+    featured: true
+  },
+  {
+    src: "/frame25.png",
+    alt: " PPCD CEO Lucy James Abaji signing MOU with LegendGoldenCare to establish a halfway home for discharged detainees",
+    category: "Professional",
+    featured: false
+  },
+  // New Workspace Image
+  {
+    src: "/frame26.png",
+    alt: "Lucy James Abaji in a strategy meeting with her team",
+    category: "Workplace",
     featured: true
   }
 ];
@@ -47,6 +80,7 @@ export function GallerySection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [filter, setFilter] = useState("All");
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [showMore, setShowMore] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   const categories = ["All", ...Array.from(new Set(galleryImages.map(img => img.category)))];
@@ -55,11 +89,24 @@ export function GallerySection() {
     ? galleryImages 
     : galleryImages.filter(img => img.category === filter);
 
+  // Show only first 6 images initially, or all if showMore is true
+  const displayedImages = showMore ? filteredImages : filteredImages.slice(0, 6);
+  const hasMoreImages = filteredImages.length > 6;
+
   const imagePaths = filteredImages.map(img => img.src);
 
-  const openLightbox = (index: number) => {
-    setCurrentImageIndex(index);
-    setLightboxOpen(true);
+  const openLightbox = (displayedIndex: number) => {
+    // Find the actual index in filteredImages for the clicked image
+    const clickedImage = displayedImages[displayedIndex];
+    const actualIndex = filteredImages.findIndex(img => img.src === clickedImage.src);
+    
+    // Ensure we have a valid index
+    if (actualIndex !== -1) {
+      setCurrentImageIndex(actualIndex);
+      setLightboxOpen(true);
+    } else {
+      console.error('Could not find image in filtered images:', clickedImage.src);
+    }
   };
 
   const nextImage = () => {
@@ -74,9 +121,10 @@ export function GallerySection() {
     );
   };
 
-  // Reset to first image when filter changes
+  // Reset to first image and collapse view when filter changes
   useEffect(() => {
     setCurrentImageIndex(0);
+    setShowMore(false);
   }, [filter]);
 
   const containerVariants = {
@@ -228,7 +276,7 @@ export function GallerySection() {
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
           >
-            {filteredImages.map((image, index) => {
+            {displayedImages.map((image, index) => {
               const isHovered = hoveredIndex === index;
               const isFeatured = image.featured;
               
@@ -333,6 +381,72 @@ export function GallerySection() {
           </motion.div>
         </AnimatePresence>
 
+        {/* See More Button */}
+        {hasMoreImages && !showMore && (
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.button
+              onClick={() => setShowMore(true)}
+              className="group relative overflow-hidden bg-gradient-to-r from-accent-gold to-yellow-400 text-black px-8 py-4 rounded-full font-semibold text-lg shadow-lg shadow-accent-gold/25 hover:shadow-xl hover:shadow-accent-gold/40 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-accent-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                initial={false}
+              />
+              <span className="relative z-10 flex items-center gap-2">
+                See More Images
+                <motion.span
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  →
+                </motion.span>
+              </span>
+            </motion.button>
+            <motion.p 
+              className="text-white/60 text-sm mt-3"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              {filteredImages.length - 6} more images in {filter !== 'All' ? filter : 'gallery'}
+            </motion.p>
+          </motion.div>
+        )}
+
+        {/* Show Less Button */}
+        {showMore && (
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.button
+              onClick={() => setShowMore(false)}
+              className="group relative overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/20 hover:border-white/30 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                Show Less
+                <motion.span
+                  animate={{ y: [0, -2, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  ↑
+                </motion.span>
+              </span>
+            </motion.button>
+          </motion.div>
+        )}
+
         {/* Gallery Stats */}
         <motion.div 
           className="text-center"
@@ -354,8 +468,15 @@ export function GallerySection() {
                 <Grid className="w-5 h-5 text-accent-gold" />
               </motion.div>
               <div className="text-left">
-                <p className="text-2xl font-bold text-white">{filteredImages.length}</p>
-                <p className="text-white/60 text-sm">Images {filter !== 'All' ? `in ${filter}` : 'Total'}</p>
+                <p className="text-2xl font-bold text-white">
+                  {showMore || !hasMoreImages ? filteredImages.length : `${displayedImages.length}/${filteredImages.length}`}
+                </p>
+                <p className="text-white/60 text-sm">
+                  {showMore || !hasMoreImages 
+                    ? `Images ${filter !== 'All' ? `in ${filter}` : 'Total'}`
+                    : `Showing ${filter !== 'All' ? `in ${filter}` : 'Images'}`
+                  }
+                </p>
               </div>
             </div>
             <div className="w-px h-12 bg-white/20"></div>

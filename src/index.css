@@ -172,6 +172,32 @@ All colors MUST be HSL. Sophisticated palette for professional portfolio.
 }
 
 @layer components {
+  /* Letter animation keyframes */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Bubble floating animation */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
   /* Elegant button variants */
   .btn-hero {
     @apply bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-gold))] 

@@ -1,387 +1,323 @@
 import { Button } from "./ui/button";
-import { ArrowDown, Linkedin, MessageCircle, Mail } from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { ArrowDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function HeroSection() {
-  const backgroundRef = useRef<HTMLDivElement>(null);
+  const words = ["Hi", "I", "am", "Lucy", "James", "Abaji"];
+  const subtitleText = " A Leader, Builder, Developer, Innovator, and Relentless Creator.";
 
-  useEffect(() => {
-    if (backgroundRef.current) {
-      // Use the hero.png from public/images folder
-      backgroundRef.current.style.backgroundImage = `url(/images/hero.png)`;
-    }
-  }, []);
+  // Animation state
+  const [displayedWords, setDisplayedWords] = useState<string[]>([]);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
-  const scrollToNext = () => {
-    const nextSection = document.querySelector("#biography");
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Animation variants
+  // Framer Motion variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
+        staggerChildren: 0.4,
+        delayChildren: 0.2
       }
     }
   };
 
-  const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  };
-
   const wordVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
+    hidden: { 
+      opacity: 0, 
+      y: 50,
+      scale: 0.8,
+      rotateX: -90
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      scale: 1,
+      rotateX: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 12,
+        duration: 0.8
+      }
+    }
   };
 
-  const buttonVariants = {
-    hidden: { y: 20, opacity: 0, scale: 0.8 },
-    visible: { y: 0, opacity: 1, scale: 1 },
-    hover: { scale: 1.05, y: -2 },
-    tap: { scale: 0.98, y: 0 }
+  const subtitleVariants = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: {
+        delay: 2.5,
+        type: "spring" as const,
+        stiffness: 80,
+        damping: 10
+      }
+    }
   };
 
-  const socialIconVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: { scale: 1, opacity: 1 },
-    hover: { scale: 1.2, rotate: 5 }
-  };
-
-  // Text content for letter-by-letter animation
-  const nameText = "Lucy James";
-  const highlightText = "Abaji";
-  const taglineText = "Visionary Leader • Strategic Innovator • Excellence Driver";
-  const descriptionText = "Transforming organizations through strategic leadership and innovative solutions. Dedicated to driving excellence and creating lasting impact in every endeavor.";
+  useEffect(() => {
+    if (currentWordIndex < words.length) {
+      const timer = setTimeout(() => {
+        setDisplayedWords(prev => [...prev, words[currentWordIndex]]);
+        setCurrentWordIndex(prev => prev + 1);
+      }, 400); // Slightly increased delay for better Framer Motion sync
+      
+      return () => clearTimeout(timer);
+    }
+  }, [currentWordIndex, words]);
 
   return (
     <section
       id="hero"
-      className="min-h-screen relative flex items-center justify-center overflow-hidden"
+      className="min-h-screen flex flex-col justify-center bg-[#f9f5f2] px-4 relative overflow-hidden"
     >
-      {/* Background with gradient overlay */}
-      <div className="absolute inset-0 hero-gradient">
-        <div 
-          ref={backgroundRef}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+      {/* Global floating bubbles across entire hero section */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Left side bubbles */}
+        <motion.div 
+          className="absolute top-20 left-20 w-4 h-4 bg-blue-400/60 rounded-full"
+          animate={{ 
+            y: [0, -20, 0], 
+            x: [0, 10, 0],
+            scale: [1, 1.2, 1]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute top-60 left-10 w-3 h-3 bg-pink-400/50 rounded-full"
+          animate={{ 
+            y: [0, 15, 0], 
+            x: [0, -8, 0],
+            opacity: [0.5, 0.8, 0.5]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+        <motion.div 
+          className="absolute top-96 left-32 w-2 h-2 bg-yellow-400/60 rounded-full"
+          animate={{ 
+            y: [0, -25, 0], 
+            scale: [1, 1.5, 1]
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+        
+        {/* Center bubbles */}
+        <motion.div 
+          className="absolute top-32 left-1/2 w-3.5 h-3.5 bg-green-400/40 rounded-full"
+          animate={{ 
+            y: [0, -30, 0], 
+            x: [0, 20, 0],
+            rotate: [0, 180, 360]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute top-80 left-1/2 w-2.5 h-2.5 bg-purple-400/55 rounded-full"
+          animate={{ 
+            y: [0, 20, 0], 
+            x: [0, -15, 0],
+            scale: [1, 0.8, 1]
+          }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        />
+        
+        {/* Right side bubbles */}
+        <motion.div 
+          className="absolute top-16 right-24 w-5 h-5 bg-indigo-400/45 rounded-full"
+          animate={{ 
+            y: [0, -15, 0], 
+            x: [0, -12, 0],
+            opacity: [0.45, 0.7, 0.45]
+          }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        />
+        <motion.div 
+          className="absolute top-52 right-16 w-2.5 h-2.5 bg-teal-400/50 rounded-full"
+          animate={{ 
+            y: [0, 18, 0], 
+            scale: [1, 1.3, 1],
+            rotate: [0, -90, 0]
+          }}
+          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        />
+        <motion.div 
+          className="absolute top-88 right-8 w-3 h-3 bg-orange-400/60 rounded-full"
+          animate={{ 
+            y: [0, -22, 0], 
+            x: [0, 8, 0]
+          }}
+          transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+        />
+        
+        {/* Additional scattered bubbles */}
+        <motion.div 
+          className="absolute top-40 left-96 w-1.5 h-1.5 bg-cyan-400/55 rounded-full"
+          animate={{ 
+            y: [0, -10, 0], 
+            opacity: [0.55, 0.8, 0.55]
+          }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.8 }}
+        />
+        <motion.div 
+          className="absolute top-72 right-32 w-4 h-4 bg-rose-400/40 rounded-full"
+          animate={{ 
+            y: [0, 25, 0], 
+            x: [0, -20, 0],
+            scale: [1, 1.4, 1]
+          }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 4 }}
         />
       </div>
 
-      {/* Content */}
-      <motion.div 
-        className="relative z-10 container mx-auto px-4 text-white"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
-            {/* Left side - Hero Image */}
-            <motion.div 
-              className="flex justify-center lg:justify-start order-1 lg:order-1"
-              variants={itemVariants}
-            >
-              <div className="relative">
-                <motion.img
-                  src="/images/hero.png"
-                  alt="Lucy James Abaji - Professional Portrait"
-                  className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full object-cover shadow-[var(--shadow-elegant)] border-4 border-accent-gold"
-                  animate={{
-                    y: [0, -10, 0],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-                <motion.div 
-                  className="absolute inset-0 rounded-full border-4 border-accent-gold"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                    opacity: [0.5, 1, 0.5],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-              </div>
-            </motion.div>
-
-            {/* Right side - Content */}
-            <motion.div 
-              className="text-center lg:text-left order-2 lg:order-2"
-              variants={itemVariants}
-            >
-              {/* Main heading */}
-              <motion.h1 
-                className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
-                style={{
-                  fontFamily: "'Playfair Display', 'Georgia', serif",
-                  fontWeight: 700,
-                  letterSpacing: '0.02em'
-                }}
-                variants={itemVariants}
-              >
-                <motion.span
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ staggerChildren: 0.08, delayChildren: 0.5 }}
-                  className="inline-block"
-                >
-                  {nameText.split("").map((letter, index) => (
-                    <motion.span
-                      key={`${letter}-${index}`}
-                      variants={wordVariants}
-                      className={`inline-block ${letter === " " ? "w-4" : ""}`}
-                      transition={{ 
-                        duration: 0.5, 
-                        ease: [0.25, 0.46, 0.45, 0.94],
-                        type: "spring",
-                        stiffness: 100
-                      }}
-                      whileHover={{ 
-                        scale: 1.1,
-                        color: "#D4AF37",
-                        transition: { duration: 0.2 }
-                      }}
-                    >
-                      {letter === " " ? "\u00A0" : letter}
-                    </motion.span>
-                  ))}
-                </motion.span>
+      <div className="max-w-5xl mx-auto w-full flex flex-col md:flex-row items-center justify-between pt-16 pb-8 relative z-10">
+        <div className="flex-1 flex flex-col items-start justify-center relative">
+          {/* Local floating bubbles around text */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-16 left-72 w-3 h-3 bg-blue-300 rounded-full opacity-40 animate-pulse pulseBubble"></div>
+            <div className="absolute top-8 left-12 w-2 h-2 bg-pink-300 rounded-full opacity-50 animate-bounce custom-bounce"></div>
+            <div className="absolute top-36 left-56 w-2.5 h-2.5 bg-yellow-300 rounded-full opacity-45 animate-ping custom-bubble"></div>
+            <div className="absolute top-2 left-48 w-1.5 h-1.5 bg-green-300 rounded-full opacity-35 animate-pulse custom-animation"></div>
+            <div className="absolute top-24 left-8 w-3.5 h-3.5 bg-purple-300 rounded-full opacity-30 animate-bounce custom-purple-bubble"></div>
+            <div className="absolute top-4 left-28 w-2 h-2 bg-indigo-300 rounded-full opacity-45 animate-pulse custom-pulse"></div>
+            <div className="absolute top-40 left-20 w-1.5 h-1.5 bg-teal-300 rounded-full opacity-40 animate-ping tealBubble"></div>
+            <div className="absolute top-12 left-64 w-2.5 h-2.5 bg-orange-300 rounded-full opacity-35 animate-bounce bounceOrangeBubble"></div>
+            <div className="absolute top-32 left-40 w-1.5 h-1.5 bg-cyan-300 rounded-full opacity-50 animate-pulse custom-animation"></div>
+            <div className="absolute top-6 left-80 w-2 h-2 bg-rose-300 rounded-full opacity-40 animate-ping custom-ping"></div>
+          </div>
+          
+          <motion.h1 
+            className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight relative z-10 max-w-lg"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div className="flex flex-wrap gap-x-3 gap-y-2">
+              <AnimatePresence>
+                {displayedWords.map((word, index) => (
+                  <motion.span 
+                    key={index}
+                    variants={wordVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="inline-block"
+                    whileHover={{ 
+                      scale: 1.1, 
+                      color: "#3B82F6",
+                      transition: { duration: 0.3 }
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </AnimatePresence>
+              {currentWordIndex < words.length && (
                 <motion.span 
-                  className="text-accent-gold inline-block ml-4 italic font-serif"
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ staggerChildren: 0.08, delayChildren: 1.8 }}
-                >
-                  {highlightText.split("").map((letter, index) => (
-                    <motion.span
-                      key={`${letter}-${index}`}
-                      variants={wordVariants}
-                      className="inline-block"
-                      transition={{ 
-                        duration: 0.5, 
-                        ease: [0.25, 0.46, 0.45, 0.94],
-                        type: "spring",
-                        stiffness: 100
-                      }}
-                      whileHover={{ 
-                        scale: 1.15,
-                        rotate: 5,
-                        transition: { duration: 0.2 }
-                      }}
-                    >
-                      {letter}
-                    </motion.span>
-                  ))}
-                </motion.span>
-              </motion.h1>
-
-              {/* Professional tagline */}
-              <motion.p 
-                className="text-lg md:text-xl lg:text-2xl mb-6 text-white/90"
-                variants={itemVariants}
-              >
-                <motion.span
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ staggerChildren: 0.05, delayChildren: 1.8 }}
-                >
-                  {taglineText.split(" ").map((word, index) => (
-                    <motion.span
-                      key={index}
-                      variants={wordVariants}
-                      className="inline-block mr-2"
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                </motion.span>
-              </motion.p>
-
-              {/* Description */}
-              <motion.div 
-                className="max-w-2xl lg:max-w-none mb-8"
-                variants={itemVariants}
-              >
-                <motion.p 
-                  className="text-base md:text-lg text-white/80 leading-relaxed"
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ staggerChildren: 0.02, delayChildren: 3 }}
-                >
-                  {descriptionText.split(" ").map((word, index) => (
-                    <motion.span
-                      key={index}
-                      variants={wordVariants}
-                      className="inline-block mr-1"
-                      transition={{ duration: 0.3, ease: "easeOut" }}
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                </motion.p>
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8"
-                variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-                transition={{ delay: 4.5 }}
-              >
-                <motion.div
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 400, 
-                    damping: 17,
-                    duration: 0.2 
-                  }}
-                  className="relative overflow-hidden"
-                >
-                  <Button 
-                    size="lg" 
-                    className="btn-hero px-8 py-4 text-base font-semibold relative z-10 shadow-lg hover:shadow-xl transform transition-all duration-300 bg-gradient-to-r from-accent-gold to-yellow-500 hover:from-yellow-500 hover:to-accent-gold text-black border-2 border-accent-gold/20"
-                    onClick={() => document.querySelector("#biography")?.scrollIntoView({ behavior: "smooth" })}
-                  >
-                    <motion.span
-                      initial={{ x: 0 }}
-                      whileHover={{ x: 2 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      Discover My Journey
-                    </motion.span>
-                    <motion.div
-                      className="absolute inset-0 bg-white/20"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
-                  </Button>
-                </motion.div>
-                <motion.div
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 400, 
-                    damping: 17,
-                    duration: 0.2,
-                    delay: 0.1 
-                  }}
-                  className="relative overflow-hidden"
-                >
-                  <Button 
-                    variant="outline" 
-                    size="lg"
-                    className="text-white border-2 border-white/60 hover:bg-white hover:text-primary px-8 py-4 text-base font-semibold backdrop-blur-sm bg-white/10 hover:border-white shadow-lg hover:shadow-xl transform transition-all duration-300"
-                    onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
-                  >
-                    <motion.span
-                      initial={{ x: 0 }}
-                      whileHover={{ x: 2 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      Get in Touch
-                    </motion.span>
-                    <motion.div
-                      className="absolute inset-0 bg-white/10"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
-                  </Button>
-                </motion.div>
-              </motion.div>
-
-              {/* Social Links */}
-              <motion.div 
-                className="flex justify-center lg:justify-start space-x-6"
-                variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-                transition={{ delay: 5.2, staggerChildren: 0.1 }}
-              >
-                <motion.a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-accent-gold transition-colors duration-300"
-                  aria-label="LinkedIn Profile"
-                  variants={socialIconVariants}
-                  whileHover="hover"
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <Linkedin className="h-7 w-7" />
-                </motion.a>
-                <motion.a
-                  href="https://threads.net"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-accent-gold transition-colors duration-300"
-                  aria-label="Threads Profile"
-                  variants={socialIconVariants}
-                  whileHover="hover"
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <MessageCircle className="h-7 w-7" />
-                </motion.a>
-                <motion.a
-                  href="mailto:iyanglucy2014@gmail.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-accent-gold transition-colors duration-300"
-                  aria-label="Email Contact"
-                  variants={socialIconVariants}
-                  whileHover="hover"
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <Mail className="h-7 w-7" />
-                </motion.a>
-              </motion.div>
+                  className="inline-block w-0.5 h-12 bg-gray-900"
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+              )}
             </motion.div>
+          </motion.h1>
+        </div>
+        <div className="flex-1 flex flex-col items-center justify-center relative">
+          <div className="relative w-96 h-96 md:w-[28rem] md:h-[28rem] flex items-center justify-center">
+            {/* Geometric moving circles around image */}
+            <motion.div 
+              className="absolute w-80 h-80 md:w-96 md:h-96 border-2 border-blue-300/30 rounded-full z-0"
+              animate={{ 
+                rotate: [0, 360],
+                scale: [1, 1.05, 1]
+              }}
+              transition={{ 
+                duration: 15, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+            />
+            
+            <motion.div 
+              className="absolute w-72 h-72 md:w-88 md:h-88 border border-purple-300/40 rounded-full z-0"
+              animate={{ 
+                rotate: [360, 0],
+                scale: [1, 0.95, 1]
+              }}
+              transition={{ 
+                duration: 12, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+            />
+            
+            <motion.div 
+              className="absolute w-64 h-64 md:w-80 md:h-80 border-2 border-dashed border-green-300/35 rounded-full z-0"
+              animate={{ 
+                rotate: [0, 360],
+                scale: [0.95, 1.1, 0.95]
+              }}
+              transition={{ 
+                duration: 20, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            />
+            
+            <motion.div 
+              className="absolute w-56 h-56 md:w-72 md:h-72 border border-dotted border-orange-300/50 rounded-full z-0"
+              animate={{ 
+                rotate: [360, 0],
+                scale: [1, 1.08, 1]
+              }}
+              transition={{ 
+                duration: 8, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+            />
+
+            {/* Background shadow */}
+            <div className="absolute -left-10 top-10 w-72 h-72 md:w-88 md:h-88 bg-gray-900/15 rounded-full z-5"></div>
+            
+            {/* Main image */}
+            <motion.img
+              src="/frame13.png"
+              alt="Lucy James Abaji - Professional Portrait"
+              className="w-72 h-72 md:w-88 md:h-88 rounded-full object-cover border-4 border-white shadow-2xl z-10 relative"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              whileHover={{ scale: 1.05 }}
+            />
+            
+            {/* Outer decorative ring */}
+            <motion.div 
+              className="absolute inset-0 rounded-full border-2 border-gradient-to-r from-blue-400 to-purple-400 z-20 pointer-events-none opacity-30"
+              animate={{ 
+                rotate: [0, 360] 
+              }}
+              transition={{ 
+                duration: 25, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+            />
           </div>
         </div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.button
-        onClick={scrollToNext}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white hover:text-accent-gold transition-colors duration-300"
-        aria-label="Scroll to next section"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ 
-          opacity: 1, 
-          y: 0,
-          transition: { delay: 5.8, duration: 0.8 }
-        }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown className="h-8 w-8" />
-        </motion.div>
-      </motion.button>
+        <div className="flex-1 flex flex-col items-end justify-center">
+          <motion.p 
+            className="text-lg md:text-xl text-gray-700 mb-2 text-right max-w-xs border-b border-dotted border-gray-400 pb-2"
+            variants={subtitleVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {subtitleText}
+          </motion.p>
+        </div>
+      </div>
+  {/* ...existing code... */}
     </section>
   );
 }

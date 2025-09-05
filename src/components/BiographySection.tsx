@@ -1,468 +1,538 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "./ui/card";
-import { Award, Target, Users, TrendingUp } from "lucide-react";
-import { motion, useInView } from "framer-motion";
+import { Award, Target, Users, TrendingUp, ChevronDown, ChevronUp } from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 const milestones = [
-  {
-    year: "2020-Present",
-    title: "Strategic Leadership at PPDC",
-    description: "Leading transformational initiatives and driving organizational excellence across multiple divisions.",
-    icon: Target,
-    achievement: "40% increase in operational efficiency"
-  },
-  {
-    year: "2018-2020",
-    title: "Innovation & Development",
-    description: "Spearheaded groundbreaking projects that revolutionized industry standards and practices.",
-    icon: TrendingUp,
-    achievement: "Led 3 award-winning projects"
-  },
-  {
-    year: "2015-2018",
-    title: "Team Excellence",
-    description: "Built and mentored high-performing teams, fostering a culture of collaboration and innovation.",
-    icon: Users,
-    achievement: "Mentored 50+ professionals"
-  },
-  {
-    year: "2012-2015",
-    title: "Recognition & Awards",
-    description: "Received multiple industry recognitions for outstanding contributions and leadership excellence.",
-    icon: Award,
-    achievement: "12 industry awards"
-  }
+	{
+		year: "2024-Present",
+		title: "Public and Private Development Centre (PPDC)",
+		description:
+			"Chief Executive Officer",
+		icon: Target,
+		achievement: "40% increase in operational efficiency",
+		detailedInfo: {
+			responsibilities: [
+				"Represent the organization in public forums, media, and high-profile events, strengthening its public image and reputation.",
+				"Make critical policy and strategic decisions that enhanced organizational growth and effectiveness",
+				"Efficiently manage day-to-day operations, ensuring alignment with organizational goals and optimizing performance.",
+				"Effectively oversee budgeting and resource allocation, ensuring financial stability and growth.",
+        "Recruit, develop, and retain high-performing teams, contributing to the organization’s overall success."
+			],
+			achievements: [
+				"including bilateral, multi-lateral agencies, and foundations.",
+				"Enhanced organizational reputation through strategic partnerships",
+				"Successfully led digital transformation initiatives",
+				"spearheaded the creation of new businesses and supervise the Business Development and Tech teams",
+			],
+			skills: [
+				"Supportive Services",
+				"Financial Analysis",
+				"Stakeholder Management",
+				"Digital Transformation",
+			],
+		},
+	},
+	{
+		year: "2020-2023",
+		title: "Connected Development [CODE]",
+		description:
+			"Programs Director",
+		icon: TrendingUp,
+		achievement: "Positively transformed millions of lives across Africa",
+		detailedInfo: {
+			responsibilities: [
+				"Manage a portfolio of complex initiatives and donor projects of the organization",
+				"Manage project and program issues and risks to mitigate impact to baseline",
+				"Participate in establishing practices, templates, policies, tools and partnerships to expand and mature these capabilities for CODE",
+				"Set and continually manage project and program expectations while delegating and managing deliverable with team members and stakeholders",
+			],
+			achievements: [
+				"Led 3 award-winning projects",
+				"Established partnerships with 15+ major donors",
+				"Launched 5 sustainable development programs",
+				"Achieved 95% project success rate",
+			],
+			skills: [
+				"Grant and Proposal Writing",
+				"Community Outreach",
+				" Gender Mainstreaming",
+				"Team Leadership",
+        "New Business Developmen",
+			],
+		},
+	},
+	{
+		year: "2017-2023",
+		title: "Connected Development [CODE]",
+		description:
+			"Programs and M&E Lead (2017-2021), Senior Program Manager (2021-2023)",
+		icon: Users,
+		achievement: "Mobilized $5 million for social impact initiatives",
+		detailedInfo: {
+			responsibilities: [
+				" Manage a portfolio of complex initiatives and donor projects of the organization",
+				"Provide on-site leadership for project team by building and motivating team members to meet project goals, adhering to their responsibilities and project milestones",
+				"Manage all aspects of multiple related projects to ensure the overall program is aligned to and directly supports the achievement of strategic objectives of CODE",
+				"Acts as the main contact person during the absence of team members, following-up on any emergencies with appropriate in-house staff, and sharing workload with Program Assistants from other teams",
+        "Works with other Program Assistants to coordinate work activities, meet deadlines, and provide support where needed"
+			],
+			achievements: [
+				"Mentored 50+ professionals successfully",
+				"Mobilized $5 million for social impact initiatives",
+				"Positively transformed millions of lives across Africa",
+				"Achieved 90% team retention rate",
+			],
+			skills: [
+				"Team Building",
+				"Mentoring",
+				"Social Impact",
+				"Cross-Cultural Leadership",
+				"Leadership Development",
+				"Partner Relationship Management",
+			],
+		},
+	},
+	{
+		year: "2015-2017",
+		title: "Director, Partnership, and Business Development",
+		description: "Exhale Grand Resources Limited/ Jas Fitness Center · Full-time",
+		icon: Award,
+		achievement: "",
+		detailedInfo: {
+			responsibilities: [
+				"Partnership & Stakeholder Management",
+				"Investment Strategy & Pipeline Development",
+				"Team & Capacity Building",
+				"Strategic Planning & Execution",
+			],
+			achievements: [
+				"Successfully acquired sufficient and skilled support for investment initiatives, establishing a network of reliable and coherent relationships.",
+				"Developed an investment opportunity pipeline through the effective utilization of contacts and networks.",
+        "Implemented strategic plans and methodologies to enhance revenue streams, foster diversification, and generate momentum within the organization.",
+        "Orchestrated partnerships, imports, exports, and international trade collaborations.",
+        "Designed and managed the implementation of a comprehensive fundraising strategy and plan, incorporating diverse financial sources."
+			],
+			skills: [
+				"Creativity and Innovation",
+				"Leadership Development",
+				"Project Management",
+				"Strategic Partnerships",
+        "Process Improvement",
+        "Partner Relationship Management",
+        "Fundraising Strategy"
+
+			],
+		},
+	},
 ];
 
+// Animation variants
+const fadeInUp = {
+	initial: { opacity: 0, y: 60 },
+	animate: { opacity: 1, y: 0 },
+	transition: { duration: 0.6, ease: "easeOut" },
+};
+
+const staggerContainer = {
+	initial: {},
+	animate: {
+		transition: {
+			staggerChildren: 0.2,
+		},
+	},
+};
+
+const slideInLeft = {
+	initial: { opacity: 0, x: -80 },
+	animate: { opacity: 1, x: 0 },
+	transition: { duration: 0.7, ease: "easeOut" },
+};
+
+const slideInRight = {
+	initial: { opacity: 0, x: 80 },
+	animate: { opacity: 1, x: 0 },
+	transition: { duration: 0.7, ease: "easeOut" },
+};
+
+const scaleIn = {
+	initial: { opacity: 0, scale: 0.8 },
+	animate: { opacity: 1, scale: 1 },
+	transition: { duration: 0.6, ease: "easeOut" },
+};
+
 export function BiographySection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+	const sectionRef = useRef<HTMLElement>(null);
+	const headerRef = useRef<HTMLDivElement>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
+	const milestonesRef = useRef<HTMLDivElement>(null);
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2
-      }
-    }
-  };
+	const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
+	const isHeaderInView = useInView(headerRef, { once: true, amount: 0.5 });
+	const isContentInView = useInView(contentRef, { once: true, amount: 0.3 });
+	const isMilestonesInView = useInView(milestonesRef, { once: true, amount: 0.2 });
 
-  const headerVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  };
+	const [expandedMilestone, setExpandedMilestone] = useState<number | null>(null);
 
-  const wordVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
+	const toggleMilestone = (index: number) => {
+		setExpandedMilestone(expandedMilestone === index ? null : index);
+	};
 
-  const cardVariants = {
-    hidden: { y: 50, opacity: 0, scale: 0.95 },
-    visible: { y: 0, opacity: 1, scale: 1 }
-  };
+	// Story paragraphs for word-by-word animation
+	const storyParagraphs = [
+		"Lucy James Abaji stands as a beacon of visionary leadership in today's dynamic business landscape. Her remarkable journey spans multiple industries, where she has consistently demonstrated an exceptional ability to transform challenges into opportunities for growth and innovation.",
+		"With a keen strategic mindset and an unwavering commitment to excellence, Lucy has built a reputation for delivering results that exceed expectations. Her leadership philosophy centers on empowering teams, fostering innovation, and creating sustainable value for all stakeholders.",
+		"As Chief Executive Officer of the Public and Private Development Centre (PPDC), She lead strategic initiatives that advance governance, transparency, and accountability across Africa. Previously, as Director of Innovation and Partnerships at PPDC, She spearheaded collaborations with public and private donors, overseeing business development and tech teams to achieve strategic goals. Earlier, at Connected Development, She led initiatives that mobilized $5 million for social impact across nine African countries, positively transforming millions of lives.",
+	];
 
-  const milestoneVariants = {
-    hidden: { x: -50, opacity: 0 },
-    visible: { x: 0, opacity: 1 }
-  };
+	return (
+		<motion.section
+			ref={sectionRef}
+			id="biography"
+			className="py-20 bg-gray-50 relative overflow-hidden"
+			initial="initial"
+			animate={isInView ? "animate" : "initial"}
+		>
+			{/* Background Elements */}
+			<motion.div
+				className="absolute inset-0 overflow-hidden"
+				initial={{ opacity: 0 }}
+				animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+				transition={{ duration: 1.2 }}
+			>
+				<motion.div
+					className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-200/20 rounded-full blur-3xl"
+					initial={{ scale: 0, rotate: -180 }}
+					animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+					transition={{ duration: 1.5, delay: 0.2 }}
+				/>
+				<motion.div
+					className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl"
+					initial={{ scale: 0, rotate: 180 }}
+					animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: 180 }}
+					transition={{ duration: 1.5, delay: 0.4 }}
+				/>
+			</motion.div>
 
-  // Story paragraphs for word-by-word animation
-  const storyParagraphs = [
-    "Lucy James Abaji stands as a beacon of visionary leadership in today's dynamic business landscape. Her remarkable journey spans multiple industries, where she has consistently demonstrated an exceptional ability to transform challenges into opportunities for growth and innovation.",
-    "With a keen strategic mindset and an unwavering commitment to excellence, Lucy has built a reputation for delivering results that exceed expectations. Her leadership philosophy centers on empowering teams, fostering innovation, and creating sustainable value for all stakeholders.",
-    "Throughout her career, she has been recognized not only for her professional achievements but also for her dedication to mentoring the next generation of leaders and her commitment to driving positive change in her community."
-  ];
+			<div className="container mx-auto px-4 relative z-10">
+				{/* Section Header */}
+				<motion.div
+					ref={headerRef}
+					className="text-center mb-16"
+					variants={staggerContainer}
+					initial="initial"
+					animate={isHeaderInView ? "animate" : "initial"}
+				>
+					<motion.span
+						className="inline-block px-4 py-2 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-700 text-sm font-semibold mb-6"
+						variants={fadeInUp}
+					>
+						✨ Professional Journey
+					</motion.span>
 
-  return (
-    <motion.section 
-      ref={sectionRef} 
-      id="biography" 
-      className="py-20 bg-gradient-to-br from-background via-secondary/10 to-accent-gold/5 relative overflow-hidden"
-      variants={containerVariants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-    >
-      {/* Modern Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute -top-40 -right-40 w-60 h-60 sm:w-80 sm:h-80 bg-accent-gold/10 rounded-full blur-3xl"
-          animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, 90, 180]
-          }}
-          transition={{ 
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-        <motion.div
-          className="absolute -bottom-40 -left-40 w-60 h-60 sm:w-80 sm:h-80 bg-primary/10 rounded-full blur-3xl"
-          animate={{ 
-            scale: [1.1, 1, 1.1],
-            y: [0, -5, 0]
-          }}
-          transition={{ 
-            duration: 12,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-      </div>
+					<motion.h2
+						className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-gray-900 to-yellow-600 bg-clip-text text-transparent"
+						variants={fadeInUp}
+					>
+						A Journey of{" "}
+						<span className="text-yellow-500">Excellence</span>
+					</motion.h2>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Modern Section Header */}
-        <motion.div 
-          className="text-center mb-12 sm:mb-16"
-          variants={headerVariants}
-        >
-          <motion.div className="inline-block">
-            <motion.span 
-              className="inline-block px-4 py-2 bg-accent-gold/10 backdrop-blur-sm border border-accent-gold/20 rounded-full text-accent-gold text-sm font-semibold mb-6"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-              ✨ Professional Journey
-            </motion.span>
-          </motion.div>
-          
-          <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-8 bg-gradient-to-r from-foreground via-accent-gold to-foreground bg-clip-text text-transparent"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            transition={{ staggerChildren: 0.1, delayChildren: 0.5 }}
-          >
-            <motion.span
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              transition={{ staggerChildren: 0.08 }}
-            >
-              {"A Journey of".split(" ").map((word, index) => (
-                <motion.span
-                  key={index}
-                  variants={wordVariants}
-                  className="inline-block mr-3"
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </motion.span>
-            <motion.span 
-              className="inline-block bg-gradient-to-r from-accent-gold to-yellow-400 bg-clip-text text-transparent"
-              variants={wordVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
-            >
-              Excellence
-            </motion.span>
-          </motion.h2>
-          
-          <motion.div className="max-w-4xl mx-auto">
-            <motion.p 
-              className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed"
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              transition={{ staggerChildren: 0.03, delayChildren: 1.5 }}
-            >
-              {"Transforming visions into reality through strategic leadership and innovative excellence.".split(" ").map((word, index) => (
-                <motion.span
-                  key={index}
-                  variants={wordVariants}
-                  className="inline-block mr-2"
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </motion.p>
-          </motion.div>
-        </motion.div>
+					<motion.p
+						className="text-xl text-gray-600 max-w-4xl mx-auto"
+						variants={fadeInUp}
+					>
+						Transforming visions into reality through strategic leadership and
+						Innovative excellence.
+					</motion.p>
+				</motion.div>
 
-        {/* Modern Biography Content - Glass Card */}
-        <motion.div 
-          className="max-w-6xl mx-auto mb-16 sm:mb-20 md:mb-24"
-          variants={cardVariants}
-          transition={{ duration: 0.8, delay: 3 }}
-        >
-          <motion.div 
-            className="relative backdrop-blur-xl bg-white/10 dark:bg-black/10 border border-white/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Gradient Border Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-accent-gold/20 via-transparent to-accent-gold/20 rounded-3xl blur-sm -z-10" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-              {/* Left Side - Portrait */}
-              <motion.div 
-                className="relative"
-                initial={{ opacity: 0, x: -50 }}
-                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                transition={{ delay: 3.5, duration: 0.8 }}
-              >
-                <div className="relative">
-                  <motion.div 
-                    className="w-full aspect-square rounded-2xl overflow-hidden shadow-2xl"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <img 
-                      src="/hero-image.jpg" 
-                      alt="Lucy James Abaji - Professional Portrait"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-                  </motion.div>
-                  
-                  {/* Floating Elements */}
-                  <motion.div 
-                    className="absolute -top-4 -right-4 w-8 h-8 bg-accent-gold rounded-full"
-                    animate={{ 
-                      scale: [1, 1.2, 1],
-                      rotate: [0, 180, 360]
-                    }}
-                    transition={{ 
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                  <motion.div 
-                    className="absolute -bottom-4 -left-4 w-6 h-6 bg-primary rounded-full"
-                    animate={{ 
-                      scale: [1.2, 1, 1.2],
-                      y: [0, -10, 0]
-                    }}
-                    transition={{ 
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                </div>
-              </motion.div>
+				{/* Biography Content */}
+				<motion.div
+					ref={contentRef}
+					className="max-w-6xl mx-auto mb-20"
+					initial="initial"
+					animate={isContentInView ? "animate" : "initial"}
+					variants={scaleIn}
+				>
+					<div className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl p-12 shadow-2xl">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+							{/* Left Side - Portrait */}
+							<motion.div
+								className="relative"
+								variants={slideInLeft}
+							>
+								<div className="w-full aspect-square rounded-2xl overflow-hidden shadow-xl">
+									<img
+										src="/frame12.png"
+										alt="Lucy James Abaji - Professional Portrait"
+										className="w-full h-full object-cover"
+									/>
+								</div>
 
-              {/* Right Side - Story Content */}
-              <div className="space-y-8">
-                {storyParagraphs.map((paragraph, paragraphIndex) => (
-                  <motion.div
-                    key={paragraphIndex}
-                    className="space-y-4"
-                  >
-                    <motion.div 
-                      className="flex items-center gap-3 mb-4"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                      transition={{ delay: 4 + (paragraphIndex * 0.3), duration: 0.6 }}
-                    >
-                      <div className="w-2 h-2 bg-accent-gold rounded-full" />
-                      <div className="h-px bg-gradient-to-r from-accent-gold/50 to-transparent flex-1" />
-                    </motion.div>
-                    
-                    <motion.p
-                      className="text-base sm:text-lg leading-relaxed text-foreground/90"
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      transition={{ 
-                        staggerChildren: 0.02, 
-                        delayChildren: 4.2 + (paragraphIndex * 2) 
-                      }}
-                    >
-                      {paragraph.split(" ").map((word, wordIndex) => (
-                        <motion.span
-                          key={wordIndex}
-                          variants={wordVariants}
-                          className="inline-block mr-1"
-                          transition={{ duration: 0.3, ease: "easeOut" }}
-                        >
-                          {word}
-                        </motion.span>
-                      ))}
-                    </motion.p>
-                  </motion.div>
-                ))}
-                
-                {/* Modern Conclusion */}
-                <motion.div
-                  className="mt-6 sm:mt-8 p-4 sm:p-6 bg-gradient-to-r from-accent-gold/10 to-accent-gold/5 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-accent-gold/20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ delay: 10, duration: 0.8 }}
-                >
-                  <motion.p 
-                    className="text-lg sm:text-xl font-medium bg-gradient-to-r from-accent-gold to-yellow-600 bg-clip-text text-transparent"
-                    initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
-                    transition={{ staggerChildren: 0.05, delayChildren: 10.5 }}
-                  >
-                    {"✨ Today, Lucy continues to write her story of excellence, one transformational achievement at a time.".split(" ").map((word, index) => (
-                      <motion.span
-                        key={index}
-                        variants={wordVariants}
-                        className="inline-block mr-1"
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                      >
-                        {word}
-                      </motion.span>
-                    ))}
-                  </motion.p>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
+								{/* Floating Elements */}
+								<motion.div
+									className="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 rounded-full animate-pulse"
+									initial={{ scale: 0 }}
+									animate={isContentInView ? { scale: 1 } : { scale: 0 }}
+									transition={{ duration: 0.5, delay: 0.8 }}
+								/>
+								<motion.div
+									className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500 rounded-full animate-bounce"
+									initial={{ scale: 0 }}
+									animate={isContentInView ? { scale: 1 } : { scale: 0 }}
+									transition={{ duration: 0.5, delay: 1.0 }}
+								/>
+							</motion.div>
 
-        {/* Modern Timeline/Milestones */}
-        <motion.div 
-          className="space-y-8"
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2, delayChildren: 12 }}
-        >
-          <motion.div className="text-center mb-12 sm:mb-16">
-            <motion.span 
-              className="inline-block px-4 py-2 bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-full text-primary text-sm font-semibold mb-6"
-              variants={headerVariants}
-            >
-              🏆 Career Highlights
-            </motion.span>
-            <motion.h3 
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent"
-              variants={headerVariants}
-              transition={{ duration: 0.6 }}
-            >
-              Key <span className="bg-gradient-to-r from-accent-gold to-yellow-400 bg-clip-text text-transparent">Milestones</span>
-            </motion.h3>
-          </motion.div>
-          
-          <div className="relative max-w-6xl mx-auto">
-            {/* Timeline Line */}
-            <motion.div 
-              className="absolute left-6 sm:left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent-gold via-primary to-accent-gold transform md:-translate-x-1/2"
-              initial={{ scaleY: 0 }}
-              animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
-              transition={{ delay: 12.5, duration: 2, ease: "easeOut" }}
-            />
-            
-            {milestones.map((milestone, index) => {
-              const IconComponent = milestone.icon;
-              const isEven = index % 2 === 0;
-              
-              return (
-                <motion.div 
-                  key={index}
-                  className={`relative flex items-center mb-12 sm:mb-16 ${
-                    isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-                  variants={milestoneVariants}
-                  transition={{ duration: 0.8, delay: index * 0.3 }}
-                >
-                  {/* Timeline Node */}
-                  <motion.div 
-                    className="absolute left-6 sm:left-8 md:left-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-accent-gold rounded-full border-2 sm:border-4 border-background shadow-lg transform md:-translate-x-1/2 z-10"
-                    initial={{ scale: 0 }}
-                    animate={isInView ? { scale: 1 } : { scale: 0 }}
-                    transition={{ delay: 13 + (index * 0.3), duration: 0.4, type: "spring" }}
-                    whileHover={{ scale: 1.5 }}
-                  />
-                  
-                  {/* Content Card */}
-                  <motion.div 
-                    className={`w-full md:w-5/12 ml-12 sm:ml-16 md:ml-0 ${isEven ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'}`}
-                    whileHover={{ scale: 1.03, y: -5 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="backdrop-blur-xl bg-white/10 dark:bg-black/10 border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
-                      {/* Card Header */}
-                      <motion.div 
-                        className="flex items-center gap-4 mb-4"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <motion.div 
-                          className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-accent-gold/20 to-accent-gold/10 backdrop-blur-sm rounded-lg sm:rounded-xl flex items-center justify-center border border-accent-gold/20"
-                          whileHover={{ rotate: 360 }}
-                          transition={{ duration: 0.6 }}
-                        >
-                          <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 text-accent-gold" />
-                        </motion.div>
-                        <motion.div 
-                          className="text-base sm:text-lg font-bold bg-gradient-to-r from-accent-gold to-yellow-400 bg-clip-text text-transparent"
-                          initial={{ opacity: 0 }}
-                          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                          transition={{ delay: 13.5 + (index * 0.3), duration: 0.6 }}
-                        >
-                          {milestone.year}
-                        </motion.div>
-                      </motion.div>
-                      
-                      {/* Card Content */}
-                      <motion.h4 
-                        className="text-lg sm:text-xl font-bold mb-3 text-foreground"
-                        initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
-                        transition={{ 
-                          staggerChildren: 0.05, 
-                          delayChildren: 14 + (index * 0.3) 
-                        }}
-                      >
-                        {milestone.title.split(" ").map((word, wordIndex) => (
-                          <motion.span
-                            key={wordIndex}
-                            variants={wordVariants}
-                            className="inline-block mr-1"
-                            transition={{ duration: 0.4, ease: "easeOut" }}
-                          >
-                            {word}
-                          </motion.span>
-                        ))}
-                      </motion.h4>
-                      
-                      <motion.p 
-                        className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed"
-                        initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
-                        transition={{ 
-                          staggerChildren: 0.02, 
-                          delayChildren: 14.5 + (index * 0.3) 
-                        }}
-                      >
-                        {milestone.description.split(" ").map((word, wordIndex) => (
-                          <motion.span
-                            key={wordIndex}
-                            variants={wordVariants}
-                            className="inline-block mr-1"
-                            transition={{ duration: 0.3, ease: "easeOut" }}
-                          >
-                            {word}
-                          </motion.span>
-                        ))}
-                      </motion.p>
-                      
-                      <motion.div 
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-accent-gold/10 to-accent-gold/5 text-accent-gold px-3 py-2 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold backdrop-blur-sm border border-accent-gold/20"
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                        transition={{ delay: 15.5 + (index * 0.3), duration: 0.4, type: "spring" }}
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <span className="w-2 h-2 bg-accent-gold rounded-full animate-pulse" />
-                        {milestone.achievement}
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
-      </div>
-    </motion.section>
-  );
+							{/* Right Side - Story Content */}
+							<motion.div
+								className="space-y-8"
+								variants={slideInRight}
+							>
+								{storyParagraphs.map((paragraph, paragraphIndex) => (
+									<motion.div
+										key={paragraphIndex}
+										className="space-y-4"
+										initial={{ opacity: 0, y: 30 }}
+										animate={isContentInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+										transition={{ duration: 0.6, delay: paragraphIndex * 0.2 + 0.5 }}
+									>
+										<div className="flex items-center gap-3 mb-4">
+											<div className="w-2 h-2 bg-yellow-500 rounded-full" />
+											<div className="h-px bg-gradient-to-r from-yellow-400 to-transparent flex-1" />
+										</div>
+
+										<p className="text-lg leading-relaxed text-gray-700">
+											{paragraph}
+										</p>
+									</motion.div>
+								))}
+
+								{/* Conclusion */}
+								<motion.div
+									className="mt-8 p-6 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-2xl border border-yellow-200"
+									initial={{ opacity: 0, scale: 0.9 }}
+									animate={isContentInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+									transition={{ duration: 0.6, delay: 1.5 }}
+								>
+									<p className="text-xl font-medium text-yellow-700">
+										✨ Today, Lucy continues to write her story of excellence, one
+										transformational achievement at a time.
+									</p>
+								</motion.div>
+							</motion.div>
+						</div>
+					</div>
+				</motion.div>
+
+				{/* Milestones */}
+				<motion.div
+					ref={milestonesRef}
+					className="space-y-8"
+					variants={staggerContainer}
+					initial="initial"
+					animate={isMilestonesInView ? "animate" : "initial"}
+				>
+					<motion.div
+						className="text-center mb-16"
+						variants={fadeInUp}
+					>
+						<span className="inline-block px-4 py-2 bg-blue-100 border border-blue-300 rounded-full text-blue-700 text-sm font-semibold mb-6">
+							🏆 Career Highlights
+						</span>
+						<h3 className="text-3xl md:text-5xl font-bold text-gray-900">
+							Key{" "}
+							<span className="text-yellow-500">Milestones</span>
+						</h3>
+					</motion.div>
+
+					<div className="relative max-w-6xl mx-auto">
+						{/* Timeline Line */}
+						<motion.div
+							className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-yellow-400 via-blue-500 to-yellow-400 transform md:-translate-x-1/2"
+							initial={{ scaleY: 0 }}
+							animate={isMilestonesInView ? { scaleY: 1 } : { scaleY: 0 }}
+							transition={{ duration: 1.5, ease: "easeOut" }}
+							style={{ transformOrigin: "top" }}
+						/>
+
+						{milestones.map((milestone, index) => {
+							const IconComponent = milestone.icon;
+							const isEven = index % 2 === 0;
+
+							return (
+								<motion.div
+									key={index}
+									className={`relative flex items-center mb-16 ${
+										isEven ? "md:flex-row" : "md:flex-row-reverse"
+									}`}
+									initial={{ opacity: 0, y: 50 }}
+									animate={isMilestonesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+									transition={{ duration: 0.6, delay: index * 0.2 }}
+								>
+									{/* Timeline Node */}
+									<motion.div
+										className="absolute left-8 md:left-1/2 w-4 h-4 bg-yellow-500 rounded-full border-4 border-white shadow-lg transform md:-translate-x-1/2 z-10"
+										initial={{ scale: 0 }}
+										animate={isMilestonesInView ? { scale: 1 } : { scale: 0 }}
+										transition={{ duration: 0.4, delay: index * 0.2 + 0.3 }}
+									/>
+
+									{/* Content Card */}
+									<motion.div
+										className={`w-full md:w-5/12 ml-16 md:ml-0 ${
+											isEven ? "md:mr-auto md:pr-8" : "md:ml-auto md:pl-8"
+										}`}
+										initial={{
+											opacity: 0,
+											x: isEven ? -50 : 50,
+											scale: 0.9,
+										}}
+										animate={isMilestonesInView ? {
+											opacity: 1,
+											x: 0,
+											scale: 1,
+										} : {
+											opacity: 0,
+											x: isEven ? -50 : 50,
+											scale: 0.9,
+										}}
+										transition={{ duration: 0.6, delay: index * 0.2 + 0.2 }}
+									>
+										<motion.div
+											className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
+											onClick={() => toggleMilestone(index)}
+											whileHover={{ scale: 1.02 }}
+											whileTap={{ scale: 0.98 }}
+										>
+											{/* Card Header */}
+											<div className="flex items-center gap-4 mb-4">
+												<div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center border border-yellow-200">
+													<IconComponent className="h-6 w-6 text-yellow-600" />
+												</div>
+												<div className="text-lg font-bold text-yellow-600 flex-1">
+													{milestone.year}
+												</div>
+												<motion.div
+													className="transform transition-transform duration-300"
+													animate={{ rotate: expandedMilestone === index ? 180 : 0 }}
+												>
+													<ChevronDown className="h-5 w-5 text-yellow-600" />
+												</motion.div>
+											</div>
+
+											{/* Card Content */}
+											<h4 className="text-xl font-bold mb-3 text-gray-900">
+												{milestone.title}
+											</h4>
+
+											<p className="text-gray-600 mb-4 leading-relaxed">
+												{milestone.description}
+											</p>
+
+											<div className="inline-flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm font-semibold border border-yellow-200">
+												<span className="w-2 h-2 bg-yellow-600 rounded-full animate-pulse" />
+												{milestone.achievement}
+											</div>
+
+											{/* Expanded Details */}
+											<AnimatePresence>
+												{expandedMilestone === index && (
+													<motion.div
+														className="mt-6 border-t border-gray-200 pt-6"
+														initial={{ opacity: 0, height: 0 }}
+														animate={{ opacity: 1, height: "auto" }}
+														exit={{ opacity: 0, height: 0 }}
+														transition={{ duration: 0.3 }}
+													>
+														<motion.div
+															className="space-y-6"
+															initial={{ opacity: 0 }}
+															animate={{ opacity: 1 }}
+															exit={{ opacity: 0 }}
+															transition={{ duration: 0.3, delay: 0.1 }}
+														>
+															{/* Responsibilities */}
+															<div>
+																<h5 className="text-sm font-semibold text-yellow-600 mb-3 flex items-center gap-2">
+																	<span className="w-2 h-2 bg-yellow-500 rounded-full" />
+																	Key Responsibilities
+																</h5>
+																<div className="space-y-2">
+																	{milestone.detailedInfo.responsibilities.map(
+																		(responsibility, idx) => (
+																			<motion.div
+																				key={idx}
+																				className="text-sm text-gray-600 flex items-start gap-2"
+																				initial={{ opacity: 0, x: -10 }}
+																				animate={{ opacity: 1, x: 0 }}
+																				transition={{ duration: 0.3, delay: idx * 0.05 }}
+																			>
+																				<span className="w-1 h-1 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
+																				<span>{responsibility}</span>
+																			</motion.div>
+																		)
+																	)}
+																</div>
+															</div>
+
+															{/* Achievements */}
+															<div>
+																<h5 className="text-sm font-semibold text-yellow-600 mb-3 flex items-center gap-2">
+																	<span className="w-2 h-2 bg-yellow-500 rounded-full" />
+																	Key Achievements
+																</h5>
+																<div className="space-y-2">
+																	{milestone.detailedInfo.achievements.map(
+																		(achievement, idx) => (
+																			<motion.div
+																				key={idx}
+																				className="text-sm text-gray-600 flex items-start gap-2"
+																				initial={{ opacity: 0, x: -10 }}
+																				animate={{ opacity: 1, x: 0 }}
+																				transition={{ duration: 0.3, delay: idx * 0.05 + 0.1 }}
+																			>
+																				<span className="w-1 h-1 bg-green-400 rounded-full mt-2 flex-shrink-0" />
+																				<span>{achievement}</span>
+																			</motion.div>
+																		)
+																	)}
+																</div>
+															</div>
+
+															{/* Skills */}
+															<div>
+																<h5 className="text-sm font-semibold text-yellow-600 mb-3 flex items-center gap-2">
+																	<span className="w-2 h-2 bg-yellow-500 rounded-full" />
+																	Key Skills
+																</h5>
+																<div className="flex flex-wrap gap-2">
+																	{milestone.detailedInfo.skills.map((skill, idx) => (
+																		<motion.span
+																			key={idx}
+																			className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full border border-yellow-200"
+																			initial={{ opacity: 0, scale: 0.8 }}
+																			animate={{ opacity: 1, scale: 1 }}
+																			transition={{ duration: 0.3, delay: idx * 0.05 + 0.2 }}
+																		>
+																			{skill}
+																		</motion.span>
+																	))}
+																</div>
+															</div>
+														</motion.div>
+													</motion.div>
+												)}
+											</AnimatePresence>
+										</motion.div>
+									</motion.div>
+								</motion.div>
+							);
+						})}
+					</div>
+				</motion.div>
+			</div>
+		</motion.section>
+	);
 }

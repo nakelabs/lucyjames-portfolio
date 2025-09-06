@@ -1,6 +1,6 @@
-# Lucy James Abaji - Portfolio
+# Lucy James Abagi - Portfolio
 
-A modern, responsive portfolio website showcasing the professional journey, achievements, and leadership philosophy of Lucy James Abaji. This elegant portfolio highlights her role as a visionary leader and strategic innovator at PPDC.
+A modern, responsive portfolio website showcasing the professional journey, achievements, and leadership philosophy of Lucy James Abagi. This elegant portfolio highlights her role as a visionary leader and strategic innovator at PPDC.
 
 ## ✨ Features
 
@@ -223,7 +223,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-**Lucy James Abaji**
+**Lucy James Abagi**
 - Portfolio: [Live Site](https://lucyjames-portfolio.vercel.app/)
 - LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/lucy-abagi-a94a98128/)
 

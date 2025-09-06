@@ -180,7 +180,7 @@ export function BiographySection() {
 
 	// Story paragraphs for word-by-word animation
 	const storyParagraphs = [
-		"Lucy James Abaji stands as a beacon of visionary leadership in today's dynamic business landscape. Her remarkable journey spans multiple industries, where she has consistently demonstrated an exceptional ability to transform challenges into opportunities for growth and innovation.",
+		"Lucy James Abagi stands as a beacon of visionary leadership in today's dynamic business landscape. Her remarkable journey spans multiple industries, where she has consistently demonstrated an exceptional ability to transform challenges into opportunities for growth and innovation.",
 		"With a keen strategic mindset and an unwavering commitment to excellence, Lucy has built a reputation for delivering results that exceed expectations. Her leadership philosophy centers on empowering teams, fostering innovation, and creating sustainable value for all stakeholders.",
 		"As Chief Executive Officer of the Public and Private Development Centre (PPDC), She lead strategic initiatives that advance governance, transparency, and accountability across Africa. Previously, as Director of Innovation and Partnerships at PPDC, She spearheaded collaborations with public and private donors, overseeing business development and tech teams to achieve strategic goals. Earlier, at Connected Development, She led initiatives that mobilized $5 million for social impact across nine African countries, positively transforming millions of lives.",
 	];

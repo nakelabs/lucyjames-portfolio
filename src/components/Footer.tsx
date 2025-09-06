@@ -20,7 +20,7 @@ export function Footer() {
             className="group cursor-default"
           >
             <h3 className="text-3xl font-light text-gray-900 group-hover:text-accent-gold transition-colors duration-300">
-              Lucy James Abaji
+              Lucy James Abagi
             </h3>
             <p className="text-gray-600 mt-2 group-hover:text-accent-gold transition-colors duration-300">
               Visionary Leader • Strategic Innovator
@@ -74,7 +74,7 @@ export function Footer() {
             transition={{ duration: 0.6, delay: 0.6 }}
           >
             <p className="text-gray-500 text-sm group-hover:text-accent-gold transition-colors duration-300">
-              © {currentYear} Lucy James Abaji. All rights reserved.
+              © {currentYear} Lucy James Abagi. All rights reserved.
             </p>
           </motion.div>
         </motion.div>

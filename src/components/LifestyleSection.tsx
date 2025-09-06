@@ -422,7 +422,7 @@ export function LifestyleSection() {
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
-                — Lucy James Abaji
+                — Lucy James Abagi
               </motion.footer>
             </div>
           </motion.div>

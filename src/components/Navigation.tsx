@@ -42,7 +42,7 @@ export function Navigation() {
               Lucy James
             </span>
             <span className="text-accent-gold ml-1 group-hover:text-yellow-500 transition-colors duration-300">
-              Abaji
+              Abagi
             </span>
           </div>
 

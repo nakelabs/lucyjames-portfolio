@@ -395,7 +395,7 @@ export function PPDCSection() {
 						>
 							<div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-accent-gold" />
 							<span className="text-lg bg-gradient-to-r from-accent-gold to-yellow-400 bg-clip-text text-transparent font-semibold">
-								Lucy James Abaji
+								Lucy James Abagi
 							</span>
 							<div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-accent-gold" />
 						</motion.footer>

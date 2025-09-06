@@ -6,25 +6,25 @@ import { Eye, Filter, Grid, Image as ImageIcon } from "lucide-react";
 const galleryImages = [
   {
     src: "/frame14.png",
-    alt: "Lucy James Abaji receiving the icon of transparency and good governance award from the National Association of Nigeria",
+    alt: "Lucy James Abagi receiving the icon of transparency and good governance award from the National Association of Nigeria",
     category: "Professional",
     featured: true
   },
   {
     src: "/frame16.png",
-    alt: "Lucy James Abaji has been named one of the top 100 reputable women of african descent",
+    alt: "Lucy James Abagi has been named one of the top 100 reputable women of african descent",
     category: "Professional",
     featured: false
   },
   {
     src: "/frame17.png",
-    alt: " Lucy James Abaji delivering a keynote speech at a The JIT Summit 2025",
+    alt: " Lucy James Abagi delivering a keynote speech at a The JIT Summit 2025",
     category: "Speaking",
     featured: true
   },
   {
     src: "/frame19.png",
-    alt: "Lucy James Abaji welcoming the new interns at PPDC",
+    alt: "Lucy James Abagi welcoming the new interns at PPDC",
     category: "Workplace",
     featured: false
   },
@@ -36,40 +36,40 @@ const galleryImages = [
   },
   {
     src: "/frame21.png",
-    alt: "Lucy James Abaji and justice team visited Kuje correctional center",
+    alt: "Lucy James Abagi and justice team visited Kuje correctional center",
     category: "Community",
     featured: true
   },
   // New Speaking Images
   {
     src: "/frame22.png",
-    alt: " Opening Remarks by Lucy James Abaji highlighting PPDC's journey in championing transparency and citizen engagement in Nigeria",
+    alt: " Opening Remarks by Lucy James Abagi highlighting PPDC's journey in championing transparency and citizen engagement in Nigeria",
     category: "Speaking",
     featured: true
   },
   {
     src: "/frame23.png",
-    alt: "Lucy James Abaji in a strategy meeting with various leadership teams",
+    alt: "Lucy James Abagi in a strategy meeting with various leadership teams",
     category: "Speaking",
     featured: false
   },
   // New Professional Images
   {
     src: "/frame24.png",
-    alt: "Lucy James Abaji and the PPDC team with the Attorney General and Commissioner for justice of Nasarawa State",
+    alt: "Lucy James Abagi and the PPDC team with the Attorney General and Commissioner for justice of Nasarawa State",
     category: "Professional",
     featured: true
   },
   {
     src: "/frame25.png",
-    alt: " PPCD CEO Lucy James Abaji signing MOU with LegendGoldenCare to establish a halfway home for discharged detainees",
+    alt: " PPCD CEO Lucy James Abagi signing MOU with LegendGoldenCare to establish a halfway home for discharged detainees",
     category: "Professional",
     featured: false
   },
   // New Workspace Image
   {
     src: "/frame26.png",
-    alt: "Lucy James Abaji in a strategy meeting with her team",
+    alt: "Lucy James Abagi in a strategy meeting with her team",
     category: "Workplace",
     featured: true
   }

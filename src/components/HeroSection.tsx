@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function HeroSection() {
-  const words = ["Hi", "I", "am", "Lucy", "James", "Abaji"];
+  const words = ["Hi", "I", "am", "Lucy", "James", "Abagi"];
   const subtitleText = " A Leader, Builder, Developer, Innovator, and Relentless Creator.";
 
   // Animation state

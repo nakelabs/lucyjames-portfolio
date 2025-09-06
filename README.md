@@ -20,11 +20,12 @@ A modern, responsive portfolio website showcasing the professional journey, achi
 
 ## 🚀 Live Demo
 
-[View Live Portfolio](https://your-portfolio-url.com) *(Update with actual deployment URL)*
+[View Live Portfolio](https://lucyjames-portfolio.vercel.app/) 
 
 ## 📱 Screenshots
 
-*Screenshots will be added here once available*
+<img width="1919" height="952" alt="image" src="https://github.com/user-attachments/assets/d8769b95-3358-4ea7-adc8-fe498a79fbbb" />
+
 
 ## 🛠️ Technology Stack
 
@@ -223,9 +224,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📧 Contact
 
 **Lucy James Abaji**
-- Portfolio: [Live Site](https://your-portfolio-url.com)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/your-profile)
-- Email: your-email@example.com
+- Portfolio: [Live Site](https://lucyjames-portfolio.vercel.app/)
+- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/lucy-abagi-a94a98128/)
 
 ---
 

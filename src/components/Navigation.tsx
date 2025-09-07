@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const navItems = [
-  { name: "Home", href: "#hero" },
-  { name: "Biography", href: "#biography" },
-  { name: "PPDC Role", href: "#ppdc" },
-  { name: "Lifestyle", href: "#lifestyle" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "#hero", type: "scroll" },
+  { name: "Biography", href: "#biography", type: "scroll" },
+  { name: "PPDC Role", href: "#ppdc", type: "scroll" },
+  { name: "Lifestyle", href: "#lifestyle", type: "scroll" },
+  { name: "Gallery", href: "#gallery", type: "scroll" },
+  { name: "Blog", href: "/blog", type: "route" },
+  { name: "Contact", href: "#contact", type: "scroll" },
 ];
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,11 +28,24 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleNavigation = (item: typeof navItems[0]) => {
+    if (item.type === "route") {
+      navigate(item.href);
+    } else {
+      // If we're not on the home page, navigate to home first
+      if (location.pathname !== "/") {
+        navigate("/" + item.href);
+      } else {
+        scrollToSection(item.href);
+      }
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
     }
   };
 
@@ -37,12 +54,15 @@ export function Navigation() {
       <nav className="px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="text-lg font-playfair font-semibold group cursor-pointer tracking-wide">
+          <div 
+            className="text-lg font-playfair font-semibold group cursor-pointer tracking-wide"
+            onClick={() => navigate("/")}
+          >
             <span className="text-gray-800 group-hover:text-accent-gold transition-colors duration-300">
               Lucy James
             </span>
             <span className="text-accent-gold ml-1 group-hover:text-yellow-500 transition-colors duration-300">
-              Abagi
+              Abaji
             </span>
           </div>
 
@@ -51,7 +71,7 @@ export function Navigation() {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item)}
                 className="text-gray-800 hover:text-accent-gold transition-colors duration-300 font-playfair font-medium text-sm relative group tracking-wide"
               >
                 {item.name}
@@ -83,7 +103,7 @@ export function Navigation() {
               {navItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={() => handleNavigation(item)}
                   className="text-left text-gray-800 hover:text-accent-gold transition-colors duration-300 font-playfair font-medium py-2 text-sm tracking-wide"
                 >
                   {item.name}

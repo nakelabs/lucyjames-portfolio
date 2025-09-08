@@ -5,6 +5,7 @@ import { PPDCSection } from "@/components/PPDCSection";
 import { LifestyleSection } from "@/components/LifestyleSection";
 import { GallerySection } from "@/components/GallerySection";
 import { ContactSection } from "@/components/ContactSection";
+import { Newsletter } from "@/components/Newsletter";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -19,6 +20,10 @@ const Index = () => {
         <GallerySection />
         <ContactSection />
       </main>
+      
+      {/* Newsletter Section */}
+      <Newsletter className="bg-gray-50" />
+      
       <Footer />
     </div>
   );

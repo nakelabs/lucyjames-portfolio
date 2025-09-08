@@ -1,7 +1,8 @@
 import { Button } from "./ui/button";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { NewsletterModal } from "./NewsletterModal";
 
 export function HeroSection() {
   const words = ["Hi", "I", "am", "Lucy", "James", "Abagi"];
@@ -10,6 +11,7 @@ export function HeroSection() {
   // Animation state
   const [displayedWords, setDisplayedWords] = useState<string[]>([]);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [isNewsletterModalOpen, setIsNewsletterModalOpen] = useState(false);
 
   // Framer Motion variants
   const containerVariants = {
@@ -476,6 +478,45 @@ export function HeroSection() {
           </motion.p>
         </div>
       </div>
+
+      {/* Floating Newsletter Button */}
+      <motion.button
+        onClick={() => setIsNewsletterModalOpen(true)}
+        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 3, duration: 0.5, type: "spring", stiffness: 200 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        aria-label="Subscribe to newsletter"
+      >
+        <motion.div
+          animate={{ 
+            rotate: [0, 5, -5, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ 
+            duration: 2, 
+            repeat: Infinity, 
+            repeatDelay: 3 
+          }}
+        >
+          <Mail size={24} />
+        </motion.div>
+        
+        {/* Tooltip */}
+        <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Subscribe to Newsletter
+          <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+        </div>
+      </motion.button>
+
+      {/* Newsletter Modal */}
+      <NewsletterModal 
+        isOpen={isNewsletterModalOpen}
+        onClose={() => setIsNewsletterModalOpen(false)}
+      />
+
   {/* ...existing code... */}
     </section>
   );

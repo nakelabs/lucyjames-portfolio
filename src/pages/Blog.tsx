@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { Newsletter } from "@/components/Newsletter";
 import { motion } from "framer-motion";
 import { Search, Calendar, User, ArrowRight, Tag, Clock, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -288,6 +289,19 @@ const Blog = () => {
               ))}
             </div>
           </div>
+        </motion.section>
+      )}
+
+      {/* Newsletter Section */}
+      {selectedCategory === "All" && !searchTerm && (
+        <motion.section 
+          className="px-4 mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <Newsletter variant="inline" />
         </motion.section>
       )}
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter API Test</title>
+</head>
+<body>
+    <h1>Newsletter API Test</h1>
+    
+    <form id="testForm">
+        <input type="email" id="email" placeholder="Enter email" required>
+        <input type="text" id="firstName" placeholder="First name (optional)">
+        <button type="submit">Test Subscription</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const firstName = document.getElementById('firstName').value;
+            const result = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/api/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, firstName }),
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<p style="color: ${response.ok ? 'green' : 'red'}">${data.message}</p>`;
+            } catch (error) {
+                result.innerHTML = `<p style="color: red">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

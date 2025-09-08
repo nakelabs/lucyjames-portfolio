@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { Newsletter } from "@/components/Newsletter";
 import { motion } from "framer-motion";
 import { Calendar, User, Clock, ArrowLeft, Tag, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -244,6 +245,13 @@ const BlogPostPage = () => {
           />
         </div>
       </motion.section>
+
+      {/* Newsletter Section */}
+      <section className="border-t border-gray-100 py-16">
+        <div className="max-w-4xl mx-auto px-4">
+          <Newsletter variant="inline" className="mb-12" />
+        </div>
+      </section>
 
       {/* Article Footer */}
       <section className="border-t border-gray-100 py-16">

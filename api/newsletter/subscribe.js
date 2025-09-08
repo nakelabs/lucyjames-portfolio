@@ -1,5 +1,3 @@
-const brevo = require('@getbrevo/brevo');
-
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -32,38 +30,50 @@ export default async function handler(req, res) {
   }
 
   try {
-    const apiInstance = new brevo.ContactsApi();
-    apiInstance.setApiKey(brevo.ContactsApiApiKeys.apiKey, process.env.VITE_BREVO_API_KEY);
-
-    const createContact = new brevo.CreateContact();
-    createContact.email = email;
-    createContact.attributes = {
-      FIRSTNAME: firstName || '',
-      LASTNAME: lastName || '',
+    const requestBody = {
+      email,
+      attributes: {
+        FIRSTNAME: firstName || '',
+        LASTNAME: lastName || '',
+      },
+      listIds: [parseInt(process.env.VITE_BREVO_LIST_ID || '1')],
+      updateEnabled: true,
     };
-    createContact.listIds = [parseInt(process.env.VITE_BREVO_LIST_ID || '1')];
-    createContact.updateEnabled = true;
 
-    const response = await apiInstance.createContact(createContact);
-
-    console.log('Brevo subscription successful:', response);
-
-    return res.status(200).json({ 
-      success: true, 
-      message: 'Successfully subscribed to newsletter!' 
+    const response = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': process.env.VITE_BREVO_API_KEY || '',
+      },
+      body: JSON.stringify(requestBody),
     });
+
+    if (response.ok || response.status === 204) {
+      console.log('Brevo subscription successful');
+      return res.status(200).json({ 
+        success: true, 
+        message: 'Successfully subscribed to newsletter!' 
+      });
+    } else {
+      const errorData = await response.json().catch(() => ({}));
+      
+      if (errorData.code === 'duplicate_parameter') {
+        return res.status(400).json({ 
+          success: false,
+          message: 'You are already subscribed to our newsletter!' 
+        });
+      }
+      
+      console.error('Brevo API error:', errorData);
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Failed to subscribe. Please try again.' 
+      });
+    }
   } catch (error) {
     console.error('Brevo subscription error:', error);
     
-    // Handle duplicate email
-    if (error.status === 400 && error.body?.code === 'duplicate_parameter') {
-      return res.status(400).json({ 
-        success: false,
-        message: 'You are already subscribed to our newsletter!' 
-      });
-    }
-
-    // Handle other errors
     return res.status(500).json({ 
       success: false,
       message: 'Failed to subscribe. Please try again.' 

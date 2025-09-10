@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Linkedin, ExternalLink } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Linkedin, ExternalLink, CheckCircle, AlertCircle } from "lucide-react";
+import emailjs from 'emailjs-com'; // Changed import
 
 const contactInfo = [
   {
@@ -35,17 +36,95 @@ export function ContactSection() {
     email: "",
     message: ""
   });
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear status when user starts typing
+    if (status !== "idle") {
+      setStatus("idle");
+      setStatusMessage("");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple form submission feedback
-    alert("Thank you for your message! Lucy will get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+    
+    // Basic validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setStatus("error");
+      setStatusMessage("Please fill in all fields");
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setStatus("error");
+      setStatusMessage("Please enter a valid email address");
+      return;
+    }
+
+    setIsLoading(true);
+    setStatus("idle");
+
+    try {
+      // EmailJS configuration
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const userId = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      console.log('EmailJS Config:', { serviceId, templateId, userId }); // Debug log
+
+      if (!serviceId || !templateId || !userId) {
+        throw new Error("EmailJS configuration missing");
+      }
+
+      // Initialize EmailJS with your user ID
+      emailjs.init(userId);
+
+      // Template parameters that match your EmailJS template
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: "Lucy James Abagi",
+        reply_to: formData.email,
+      };
+
+      console.log('Sending email with params:', templateParams); // Debug log
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams
+      );
+
+      console.log('Email sent successfully:', result);
+      
+      setStatus("success");
+      setStatusMessage("Thank you! Your message has been sent successfully. Lucy will get back to you soon.");
+      setFormData({ name: "", email: "", message: "" });
+      
+      // Auto-clear success message after 5 seconds
+      setTimeout(() => {
+        setStatus("idle");
+        setStatusMessage("");
+      }, 5000);
+
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      setStatus("error");
+      setStatusMessage("Failed to send message. Please try again or contact Lucy directly via email.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -83,7 +162,8 @@ export function ContactSection() {
                   onChange={handleInputChange}
                   placeholder="Your Name"
                   required
-                  className="w-full px-0 py-3 text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:border-accent-gold hover:border-accent-gold group-hover:text-accent-gold focus:outline-none transition-colors duration-300 text-lg placeholder:group-hover:text-accent-gold/70"
+                  disabled={isLoading}
+                  className="w-full px-0 py-3 text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:border-accent-gold hover:border-accent-gold group-hover:text-accent-gold focus:outline-none transition-colors duration-300 text-lg placeholder:group-hover:text-accent-gold/70 disabled:opacity-50"
                 />
               </div>
               
@@ -95,7 +175,8 @@ export function ContactSection() {
                   onChange={handleInputChange}
                   placeholder="Your Email"
                   required
-                  className="w-full px-0 py-3 text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:border-accent-gold hover:border-accent-gold group-hover:text-accent-gold focus:outline-none transition-colors duration-300 text-lg placeholder:group-hover:text-accent-gold/70"
+                  disabled={isLoading}
+                  className="w-full px-0 py-3 text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:border-accent-gold hover:border-accent-gold group-hover:text-accent-gold focus:outline-none transition-colors duration-300 text-lg placeholder:group-hover:text-accent-gold/70 disabled:opacity-50"
                 />
               </div>
               
@@ -107,18 +188,57 @@ export function ContactSection() {
                   placeholder="Your Message"
                   required
                   rows={5}
-                  className="w-full px-0 py-3 text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:border-accent-gold hover:border-accent-gold group-hover:text-accent-gold focus:outline-none resize-none transition-colors duration-300 text-lg placeholder:group-hover:text-accent-gold/70"
+                  disabled={isLoading}
+                  className="w-full px-0 py-3 text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:border-accent-gold hover:border-accent-gold group-hover:text-accent-gold focus:outline-none resize-none transition-colors duration-300 text-lg placeholder:group-hover:text-accent-gold/70 disabled:opacity-50"
                 />
               </div>
+
+              {/* Status Message */}
+              {status !== "idle" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex items-center gap-2 p-4 rounded-lg ${
+                    status === "success" 
+                      ? "bg-green-50 text-green-700 border border-green-200" 
+                      : "bg-red-50 text-red-700 border border-red-200"
+                  }`}
+                >
+                  {status === "success" ? (
+                    <CheckCircle className="h-5 w-5 flex-shrink-0" />
+                  ) : (
+                    <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                  )}
+                  <span className="text-sm">{statusMessage}</span>
+                </motion.div>
+              )}
               
               <motion.button
                 type="submit"
-                className="inline-flex items-center gap-2 px-8 py-3 bg-gray-900 text-white hover:bg-accent-gold hover:text-black transition-colors duration-300 text-lg font-medium"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isLoading}
+                className={`inline-flex items-center gap-2 px-8 py-3 text-lg font-medium transition-all duration-300 ${
+                  isLoading
+                    ? "bg-gray-400 text-white cursor-not-allowed"
+                    : "bg-gray-900 text-white hover:bg-accent-gold hover:text-black"
+                }`}
+                whileHover={!isLoading ? { scale: 1.02 } : {}}
+                whileTap={!isLoading ? { scale: 0.98 } : {}}
               >
-                <Send className="h-5 w-5" />
-                Send Message
+                {isLoading ? (
+                  <>
+                    <motion.div
+                      className="h-5 w-5 border-2 border-white border-t-transparent rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-5 w-5" />
+                    Send Message
+                  </>
+                )}
               </motion.button>
             </form>
           </motion.div>

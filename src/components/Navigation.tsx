@@ -18,7 +18,6 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,24 +28,47 @@ export function Navigation() {
       // Track if we've scrolled for styling
       setIsScrolled(currentScrollY > 50);
       
-      // Show navbar at top of page
-      if (currentScrollY < 10) {
-        setIsVisible(true);
+      // Check if hero section is in view
+      const heroSection = document.querySelector('#hero');
+      if (heroSection) {
+        const heroRect = heroSection.getBoundingClientRect();
+        const heroHeight = heroRect.height;
+        const heroTop = heroRect.top;
+        
+        // Show navbar only when hero section is visible
+        // Hero is considered visible if any part of it is in the viewport
+        const isHeroVisible = heroTop < window.innerHeight && (heroTop + heroHeight) > 0;
+        
+        setIsVisible(isHeroVisible);
+        
+        // Close mobile menu when navbar becomes invisible
+        if (!isHeroVisible) {
+          setIsMobileMenuOpen(false);
+        }
+      } else {
+        // Fallback: if no hero section found, show navbar only at the very top
+        setIsVisible(currentScrollY < 100);
       }
-      // Hide when scrolling down, show when scrolling up
-      else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-        setIsMobileMenuOpen(false); // Close mobile menu when hiding
-      } else if (currentScrollY < lastScrollY) {
-        setIsVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+    // Add throttling to improve performance
+    let ticking = false;
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    // Check initial state
+    handleScroll();
+
+    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", throttledHandleScroll);
+  }, []);
 
   const handleNavigation = (item: typeof navItems[0]) => {
     if (item.type === "route") {

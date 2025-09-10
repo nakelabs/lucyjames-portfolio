@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Linkedin, ExternalLink, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Linkedin, ExternalLink, CheckCircle, AlertCircle, Instagram } from "lucide-react";
 import emailjs from 'emailjs-com'; // Changed import
 
 const contactInfo = [
@@ -27,6 +27,12 @@ const contactInfo = [
     title: "LinkedIn",
     value: "Connect with Lucy",
     href: "https://www.linkedin.com/in/lucy-abagi-a94a98128/"
+  },
+  {
+    icon: Instagram,
+    title: "Instagram",
+    value: "Follow Lucy",
+    href: "https://www.instagram.com/lucyjamesabagi/"
   }
 ];
 

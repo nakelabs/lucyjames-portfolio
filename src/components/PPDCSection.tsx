@@ -234,7 +234,7 @@ export function PPDCSection() {
 										animate={isInView ? { opacity: 1 } : { opacity: 0 }}
 										transition={{ delay: 1, duration: 0.6 }}
 									>
-										40+
+										20+
 									</motion.div>
 									<div className="text-sm text-muted-foreground font-medium">
 										Projects Led
@@ -252,7 +252,7 @@ export function PPDCSection() {
 										animate={isInView ? { opacity: 1 } : { opacity: 0 }}
 										transition={{ delay: 1.2, duration: 0.6 }}
 									>
-										200+
+										50+					
 									</motion.div>
 									<div className="text-sm text-muted-foreground font-medium">
 										Team Members
@@ -365,12 +365,12 @@ export function PPDCSection() {
 					transition={{ duration: 0.8, delay: 1 }}
 				>
 					<motion.div
-						className="max-w-4xl mx-auto backdrop-blur-xl bg-gradient-to-r from-accent-gold/5 via-transparent to-accent-gold/5 border border-accent-gold/20 rounded-3xl p-8 md:p-12 shadow-2xl"
-						whileHover={{ scale: 1.02 }}
+						className="max-w-4xl mx-auto py-8 group cursor-default"
+						whileHover={{ y: -5 }}
 						transition={{ duration: 0.3 }}
 					>
 						<motion.div
-							className="text-6xl text-accent-gold/20 mb-4"
+							className="text-4xl md:text-6xl text-accent-gold/30 group-hover:text-accent-gold/50 mb-6 transition-colors duration-500"
 							initial={{ opacity: 0, scale: 0.5 }}
 							animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
 							transition={{ delay: 1.5, duration: 0.6 }}
@@ -379,25 +379,25 @@ export function PPDCSection() {
 						</motion.div>
 
 						<motion.blockquote
-							className="text-2xl md:text-3xl font-light italic text-foreground mb-6 leading-relaxed"
+							className="text-2xl md:text-3xl font-light text-foreground group-hover:text-accent-gold mb-8 leading-relaxed transition-colors duration-500"
 							initial={{ opacity: 0, y: 20 }}
 							animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
 							transition={{ delay: 1.7, duration: 0.8 }}
 						>
-							Nothing in life is easy,and neither is anything attainable without effort.Success is a product of grit,grace and determination,the ability to persevere no matter what.
+							Nothing in life is easy, and neither is anything attainable without effort. Success is a product of grit, grace and determination, the ability to persevere no matter what.
 						</motion.blockquote>
 
 						<motion.footer
-							className="flex items-center justify-center gap-3"
+							className="flex items-center justify-center gap-4"
 							initial={{ opacity: 0 }}
 							animate={isInView ? { opacity: 1 } : { opacity: 0 }}
 							transition={{ delay: 2, duration: 0.6 }}
 						>
-							<div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-accent-gold" />
-							<span className="text-lg bg-gradient-to-r from-accent-gold to-yellow-400 bg-clip-text text-transparent font-semibold">
+							<div className="w-16 h-px bg-gradient-to-r from-transparent via-accent-gold to-transparent group-hover:via-yellow-400 transition-colors duration-500" />
+							<span className="text-lg bg-gradient-to-r from-accent-gold to-yellow-400 bg-clip-text text-transparent font-medium tracking-wide">
 								Lucy James Abagi
 							</span>
-							<div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-accent-gold" />
+							<div className="w-16 h-px bg-gradient-to-l from-transparent via-accent-gold to-transparent group-hover:via-yellow-400 transition-colors duration-500" />
 						</motion.footer>
 					</motion.div>
 				</motion.div>

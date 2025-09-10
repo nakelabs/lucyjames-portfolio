@@ -446,11 +446,15 @@ export function HeroSection() {
             <motion.img
               src="/frame13.png"
               alt="Lucy James Abaji - Professional Portrait"
-              className="w-72 h-72 md:w-88 md:h-88 rounded-full object-cover border-4 border-white shadow-2xl z-10 relative"
+              className="w-72 h-72 md:w-88 md:h-88 rounded-full object-cover object-center border-4 border-white shadow-2xl z-10 relative"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
               whileHover={{ scale: 1.05 }}
+              style={{ 
+                objectPosition: "center center",
+                aspectRatio: "1/1"
+              }}
             />
             
             {/* Outer decorative ring */}
@@ -469,10 +473,17 @@ export function HeroSection() {
         </div>
         <div className="flex-1 flex flex-col items-end justify-center">
           <motion.p 
-            className="text-lg md:text-xl text-gray-700 mb-2 text-right max-w-xs border-b border-dotted border-gray-400 pb-2"
+            className="text-lg md:text-xl text-gray-700 mb-2 text-right max-w-xs border-b border-dotted border-gray-400 pb-2 cursor-default transition-all duration-500"
             variants={subtitleVariants}
             initial="hidden"
             animate="visible"
+            whileHover={{ 
+              scale: 1.05,
+              color: "#3B82F6",
+              textShadow: "0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2)",
+              transition: { duration: 0.3 }
+            }}
+            whileTap={{ scale: 0.98 }}
           >
             {subtitleText}
           </motion.p>

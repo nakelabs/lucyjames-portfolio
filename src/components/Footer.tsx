@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
 
   return (
     <footer className="bg-white py-16 border-t border-gray-100">
@@ -57,6 +59,12 @@ export function Footer() {
               className="hover:text-accent-gold transition-colors duration-300"
             >
               Gallery
+            </button>
+            <button
+              onClick={() => navigate("/blog")}
+              className="hover:text-accent-gold transition-colors duration-300"
+            >
+              Blog
             </button>
             <button
               onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}

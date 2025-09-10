@@ -102,34 +102,34 @@ export function Navigation() {
             duration: 0.3, 
             ease: "easeInOut" 
           }}
-          className="fixed top-6 left-4 right-4 z-40"
+          className="fixed top-4 left-2 right-2 md:top-6 md:left-4 md:right-4 z-40"
         >
-          <nav className="px-4 py-3">
+          <nav className="px-3 py-2 md:px-4 md:py-3 backdrop-blur-md bg-white/10 border border-white/20 rounded-xl shadow-lg">
             <div className="flex items-center justify-between">
               {/* Logo */}
               <div 
-                className="text-lg font-playfair font-semibold group cursor-pointer tracking-wide"
+                className="text-sm md:text-base font-playfair font-semibold group cursor-pointer tracking-wide"
                 onClick={() => navigate("/")}
               >
-                <span className="text-gray-800 group-hover:text-accent-gold transition-colors duration-300">
+                <span className="text-accent-gold group-hover:text-yellow-400 transition-colors duration-300">
                   Lucy James
                 </span>
-                <span className="text-accent-gold ml-1 group-hover:text-yellow-500 transition-colors duration-300">
+                <span className="text-yellow-400 ml-1 group-hover:text-accent-gold transition-colors duration-300">
                   Abaji
                 </span>
               </div>
 
               {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-8">
+              <div className="hidden md:flex items-center space-x-6">
                 {navItems.map((item) => (
                   <button
                     key={item.name}
                     onClick={() => handleNavigation(item)}
-                    className="text-gray-800 hover:text-accent-gold transition-colors duration-300 font-playfair font-medium text-sm relative group tracking-wide"
+                    className="text-accent-gold hover:text-yellow-400 transition-colors duration-300 font-playfair font-medium text-xs relative group tracking-wide"
                   >
                     {item.name}
                     {/* Underline effect on hover */}
-                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-accent-gold transition-all duration-300 group-hover:w-full"></span>
+                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
                   </button>
                 ))}
               </div>
@@ -138,13 +138,13 @@ export function Navigation() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden hover:bg-transparent hover:text-accent-gold transition-colors duration-300 h-8 w-8 border-none shadow-none"
+                className="md:hidden hover:bg-white/10 hover:text-yellow-400 transition-colors duration-300 h-8 w-8 border-none shadow-none flex-shrink-0"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? (
-                  <X className="h-5 w-5 text-gray-800" />
+                  <X className="h-4 w-4 text-accent-gold" />
                 ) : (
-                  <Menu className="h-5 w-5 text-gray-800" />
+                  <Menu className="h-4 w-4 text-accent-gold" />
                 )}
               </Button>
             </div>
@@ -157,14 +157,14 @@ export function Navigation() {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="md:hidden mt-4 pt-4 border-t border-gray-200/30 overflow-hidden"
+                  className="md:hidden mt-3 pt-3 border-t border-white/20 overflow-hidden"
                 >
-                  <div className="flex flex-col space-y-3">
+                  <div className="flex flex-col space-y-2 px-1">
                     {navItems.map((item) => (
                       <button
                         key={item.name}
                         onClick={() => handleNavigation(item)}
-                        className="text-left text-gray-800 hover:text-accent-gold transition-colors duration-300 font-playfair font-medium py-2 text-sm tracking-wide"
+                        className="text-left text-accent-gold hover:text-yellow-400 transition-colors duration-300 font-playfair font-medium py-2 text-sm tracking-wide"
                       >
                         {item.name}
                       </button>
